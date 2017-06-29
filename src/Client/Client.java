@@ -1,17 +1,17 @@
 package Client;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
+import de.fhac.mazenet.server.generated.LoginMessageType;
+import de.fhac.mazenet.server.generated.MazeCom;
+import de.fhac.mazenet.server.generated.MazeComType;
 import de.fhac.mazenet.server.networking.XmlInStream;
 import de.fhac.mazenet.server.networking.XmlOutStream;
-import generated.LoginMessageType;
-import generated.MazeCom;
-import generated.MazeComType;
 
 public class Client {
 	private XmlInStream inFromServer;
@@ -24,12 +24,22 @@ public class Client {
 				Socket clientSocket = new Socket("localhost", 5123);
 				inFromServer = new XmlInStream(clientSocket.getInputStream());
 				outToServer = new XmlOutStream(clientSocket.getOutputStream());
+				
+				// Spielgeschehen
+				// Thread Serverlistener
+				Thread t = new Listener(inFromServer, outToServer);
+				
+				//login
 				MazeCom mc = new MazeCom();
 				LoginMessageType lmt = new LoginMessageType();
-				lmt.setName("KleinerDrei");
+				String name = JOptionPane.showInputDialog("Gebe den Spielernamen an");
+			//	lmt.setName("KleinerDrei"); // nur ein User des Clients möglich
+				lmt.setName(name);
 				mc.setLoginMessage(lmt);
 				mc.setMcType(MazeComType.LOGIN);
 				outToServer.write(mc);
+				t.run();
+							
 				clientSocket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
