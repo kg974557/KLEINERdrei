@@ -30,14 +30,12 @@ public class KI {
 		currentPos = new Position(board.findPlayer(id));
 	}
 
-	// TODO return statement
 	protected MoveMessageType move() {
 		MoveMessageType zug = new MoveMessageType();
 		List<Card> moeglicheRotationen = card.getPossibleRotations();
-		System.out.println(moeglicheRotationen.size());
+		//Default-Bewertung
 		Bewertung bewertung = new Bewertung(Integer.MAX_VALUE, card, new Position(1, 0), currentPos);
 		ArrayList<Position> placeShiftCardPositions = (ArrayList<Position>) Position.getPossiblePositionsForShiftcard();
-		int ind = 1;
 		// für jede mögliche rotation der Karte
 		for (Card c : moeglicheRotationen) {
 			zug.setShiftCard(c); // gebe dem Zug die rotierte Karte
@@ -48,29 +46,29 @@ public class KI {
 
 				// simuliere den Zug auf einem geklonten Board
 				Board temp = board.fakeShift(zug);
-				temp.setCard(p.getRow(), p.getCol(), c);
+				//temp.setCard(p.getRow(), p.getCol(), c);
 				List<Position> currentMoves = temp.getAllReachablePositions(temp.findPlayer(id)); // speicher
 				currentPos = new Position(temp.findPlayer(id));																					// mögliche
-																									// Bewegungen
-				System.out.println("Index: " + ind++ + ", current Moves: " + currentMoves);
-				System.out.println("CurrentPos: " +currentPos+" TreasurePos: "+treasure);
+				System.out.println(currentPos);
 				if (temp.pathPossible(currentPos, treasure)) {
 					zug.setNewPinPos(treasure);
 					return zug;
-				} else {
+				} 
+				else 
+				{
 					for (Position pos : currentMoves) {
 						int wertung = Math.abs(treasure.getCol() - pos.getCol())
 								+ Math.abs(treasure.getRow() - pos.getRow());
-						if (bewertung.getWertung() > wertung) {
-							bewertung.setCard(c);
-							bewertung.setPos(pos);
+						if (bewertung.getWertung() > wertung) 
+						{
 							bewertung.setWertung(wertung);
+							bewertung.setCard(c);
 							bewertung.setCardpos(p);
+							bewertung.setPos(pos);
 						}
 					}
 				}
-				// TODO Werte Bewegungen aus und füge beste der ArrayList hinzu
-
+				
 			}
 		}
 
@@ -80,6 +78,7 @@ public class KI {
 			Position forbiddenMove = new Position(board.getForbidden());
 			System.out.println("ForbiddenMove: " + forbiddenMove);
 		}
+		System.out.println(bewertung);
 		zug.setNewPinPos(bewertung.getPos());
 		zug.setShiftCard(bewertung.getCard());
 		zug.setShiftPosition(bewertung.getCardpos());

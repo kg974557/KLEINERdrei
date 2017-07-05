@@ -1,17 +1,17 @@
 package de.fhac.mazenet.server.networking;
 
-import generated.MazeCom;
-import de.fhac.mazenet.server.networking.Messages;
-import de.fhac.mazenet.server.networking.UTFOutputStream;
-import de.fhac.mazenet.server.tools.Debug;
-import de.fhac.mazenet.server.tools.DebugLevel;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import de.fhac.mazenet.server.generated.MazeCom;
+import de.fhac.mazenet.server.tools.Debug;
+import de.fhac.mazenet.server.tools.DebugLevel;
 
 public class XmlOutStream extends UTFOutputStream {
 

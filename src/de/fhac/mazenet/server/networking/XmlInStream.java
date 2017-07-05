@@ -1,11 +1,11 @@
 package de.fhac.mazenet.server.networking;
 
-import generated.MazeCom;
-import de.fhac.mazenet.server.networking.Messages;
-import de.fhac.mazenet.server.networking.UTFInputStream;
-import de.fhac.mazenet.server.tools.Debug;
-import de.fhac.mazenet.server.tools.DebugLevel;
-import org.xml.sax.SAXException;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -14,7 +14,12 @@ import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import java.io.*;
+
+import org.xml.sax.SAXException;
+
+import de.fhac.mazenet.server.generated.MazeCom;
+import de.fhac.mazenet.server.tools.Debug;
+import de.fhac.mazenet.server.tools.DebugLevel;
 
 public class XmlInStream extends UTFInputStream {
 

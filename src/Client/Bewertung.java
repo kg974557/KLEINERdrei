@@ -7,14 +7,19 @@ public class Bewertung {
 
 	private int wertung;
 	private Card card;
-	private Position pos;
 	private Position cardpos;
+	private Position pos;
 	
+	@Override
+	public String toString() {
+		return "Bewertung [wertung=" + wertung + ", card=" + card + ", cardpos=" + cardpos + ", pos=" + pos + "]";
+	}
+
 	public Bewertung(int wertung, Card card, Position cardpos, Position pos) {
 		this.wertung = wertung;
 		this.card = card;
-		this.pos = pos;
 		this.cardpos = cardpos;
+		this.pos = pos;
 	}
 
 	public Position getCardpos() {
