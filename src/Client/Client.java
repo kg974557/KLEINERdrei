@@ -16,10 +16,10 @@ import de.fhac.mazenet.server.networking.XmlOutStream;
 public class Client {
 	private XmlInStream inFromServer;
 	private XmlOutStream outToServer;
-	public Client() {
+	public Client(String ip) {
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			Socket clientSocket = new Socket("localhost", 5123);
+			Socket clientSocket = new Socket(ip, 5123); //"192.168.1.199"
 			inFromServer = new XmlInStream(clientSocket.getInputStream());
 			outToServer = new XmlOutStream(clientSocket.getOutputStream());
 			
@@ -30,9 +30,9 @@ public class Client {
 			//login
 			MazeCom mc = new MazeCom();
 			LoginMessageType lmt = new LoginMessageType();
-			String name = JOptionPane.showInputDialog("Gebe den Spielernamen an");
-		//	lmt.setName("KleinerDrei"); // nur ein User des Clients möglich
-			lmt.setName(name);
+		//	String name = JOptionPane.showInputDialog("Gebe den Spielernamen an");
+			lmt.setName("KLEINERdrei"); // nur ein User des Clients möglich
+		//	lmt.setName(name);
 			mc.setLoginMessage(lmt);
 			mc.setMcType(MazeComType.LOGIN);
 			outToServer.write(mc);
@@ -44,6 +44,10 @@ public class Client {
 		}		
 	}
 	public static void main(String[] args) {
-		new Client();
+		if (args.length > 0){
+			new Client(args[0]);
+		}else{
+			new Client("localhost");
+		}
 	}
 }
